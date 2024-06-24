@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, VStack, Input, Button, Text, Box, FormControl, FormLabel } from "@chakra-ui/react";
 
 const Index = () => {
@@ -11,8 +11,14 @@ const Index = () => {
   });
   const [file, setFile] = useState(null);
 
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
+
   const handleLogin = () => {
-    // Simulate fetching user data
     const data = {
       id: userId,
       name: "John Doe",
@@ -22,6 +28,12 @@ const Index = () => {
       ...fixedData,
     };
     setUserData(data);
+    localStorage.setItem("userData", JSON.stringify(data));
+  };
+
+  const handleLogout = () => {
+    setUserData(null);
+    localStorage.removeItem("userData");
   };
 
   const handleFileUpload = (e) => {
@@ -82,6 +94,9 @@ const Index = () => {
           <Text><strong>Model Name:</strong> {userData.modelName}</Text>
           <Text><strong>Phone Number:</strong> {userData.phoneNumber}</Text>
           {file && <Text><strong>Uploaded File:</strong> {file.name}</Text>}
+          <Button onClick={handleLogout} colorScheme="red" mt={4}>
+            Logout
+          </Button>
         </Box>
       )}
     </Container>

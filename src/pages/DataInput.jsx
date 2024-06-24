@@ -14,6 +14,7 @@ const DataInput = () => {
   const [contractStatus, setContractStatus] = useState("");
   const [contractStartDate, setContractStartDate] = useState(null);
   const [contractEndDate, setContractEndDate] = useState(null);
+  const [contractPeriod, setContractPeriod] = useState("");
   const navigate = useNavigate();
 
   const modelOptions = ["Model A", "Model B", "Model C"]; // Predefined model data
@@ -45,6 +46,7 @@ const DataInput = () => {
       contractStatus,
       contractStartDate,
       contractEndDate,
+      contractPeriod,
     };
     setUserData(updatedData);
     localStorage.setItem("userData", JSON.stringify(updatedData));
@@ -70,18 +72,6 @@ const DataInput = () => {
             </Select>
           </FormControl>
           <FormControl>
-            <FormLabel>Phone Number</FormLabel>
-            <Input
-              placeholder="Enter phone number"
-              value={fixedData.phoneNumber}
-              onChange={(e) => setFixedData({ ...fixedData, phoneNumber: e.target.value })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Upload File</FormLabel>
-            <Input type="file" onChange={handleFileUpload} />
-          </FormControl>
-          <FormControl>
             <FormLabel>Contract Status</FormLabel>
             <Select
               placeholder="Select contract status"
@@ -94,6 +84,18 @@ const DataInput = () => {
                 </option>
               ))}
             </Select>
+          </FormControl>
+          <FormControl>
+            <FormLabel>Phone Number</FormLabel>
+            <Input
+              placeholder="Enter phone number"
+              value={fixedData.phoneNumber}
+              onChange={(e) => setFixedData({ ...fixedData, phoneNumber: e.target.value })}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Upload File</FormLabel>
+            <Input type="file" onChange={handleFileUpload} />
           </FormControl>
           <FormControl>
             <FormLabel>Contract Start Date</FormLabel>
@@ -111,6 +113,14 @@ const DataInput = () => {
               onChange={(date) => setContractEndDate(date)}
               dateFormat="yyyy/MM/dd"
               placeholderText="Select end date"
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Contract Period</FormLabel>
+            <Input
+              placeholder="Enter contract period"
+              value={contractPeriod}
+              onChange={(e) => setContractPeriod(e.target.value)}
             />
           </FormControl>
           <Button onClick={handleDataSubmit} colorScheme="blue">

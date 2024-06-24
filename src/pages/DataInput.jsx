@@ -81,18 +81,6 @@ const DataInput = () => {
             </Select>
           </FormControl>
           <FormControl>
-            <FormLabel>Phone Number</FormLabel>
-            <Input
-              placeholder="Enter phone number"
-              value={fixedData.phoneNumber}
-              onChange={(e) => setFixedData({ ...fixedData, phoneNumber: e.target.value })}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Upload File</FormLabel>
-            <Input type="file" onChange={handleFileUpload} />
-          </FormControl>
-          <FormControl>
             <FormLabel>Contract Period</FormLabel>
             <Select
               placeholder="Select contract period"
@@ -105,6 +93,18 @@ const DataInput = () => {
                 </option>
               ))}
             </Select>
+          </FormControl>
+          <FormControl>
+            <FormLabel>Phone Number</FormLabel>
+            <Input
+              placeholder="Enter phone number"
+              value={fixedData.phoneNumber}
+              onChange={(e) => setFixedData({ ...fixedData, phoneNumber: e.target.value })}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Upload File</FormLabel>
+            <Input type="file" onChange={handleFileUpload} />
           </FormControl>
           <Button onClick={handleDataSubmit} colorScheme="blue">
             Submit Data

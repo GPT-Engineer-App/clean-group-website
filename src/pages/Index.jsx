@@ -1,18 +1,44 @@
-// Update this page (the content is just a fallback if you fail and example)
-// Use chakra-ui
-import { Container, Text, VStack } from "@chakra-ui/react";
-
-// Example of using react-icons
-// import { FaRocket } from "react-icons/fa";
-// <IconButton aria-label="Add" icon={<FaRocket />} size="lg" />; // IconButton would also have to be imported from chakra
+import { useState } from "react";
+import { Container, VStack, Input, Button, Text, Box } from "@chakra-ui/react";
 
 const Index = () => {
+  const [userId, setUserId] = useState("");
+  const [userData, setUserData] = useState(null);
+
+  const handleLogin = () => {
+    // Simulate fetching user data
+    const data = {
+      id: userId,
+      name: "John Doe",
+      email: "john.doe@example.com",
+      age: 30,
+    };
+    setUserData(data);
+  };
+
   return (
     <Container centerContent maxW="container.md" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-      <VStack spacing={4}>
-        <Text fontSize="2xl">Your Blank Canvas</Text>
-        <Text>Chat with the agent to start making edits.</Text>
-      </VStack>
+      {!userData ? (
+        <VStack spacing={4}>
+          <Text fontSize="2xl">Login</Text>
+          <Input
+            placeholder="Enter your ID"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+          />
+          <Button onClick={handleLogin} colorScheme="blue">
+            Login
+          </Button>
+        </VStack>
+      ) : (
+        <Box p={4} borderWidth={1} borderRadius="md" boxShadow="md">
+          <Text fontSize="2xl" mb={4}>User Data</Text>
+          <Text><strong>ID:</strong> {userData.id}</Text>
+          <Text><strong>Name:</strong> {userData.name}</Text>
+          <Text><strong>Email:</strong> {userData.email}</Text>
+          <Text><strong>Age:</strong> {userData.age}</Text>
+        </Box>
+      )}
     </Container>
   );
 };

@@ -5,7 +5,6 @@ const Index = () => {
   const [userId, setUserId] = useState("");
   const [userData, setUserData] = useState(null);
   const [fixedData, setFixedData] = useState({
-    identicalNumber: "",
     modelName: "",
     phoneNumber: "",
   });
@@ -25,6 +24,7 @@ const Index = () => {
       email: "john.doe@example.com",
       age: 30,
       status: "active",
+      identicalNumber: Date.now(), // Automatically assign a unique number
       ...fixedData,
     };
     setUserData(data);
@@ -50,14 +50,6 @@ const Index = () => {
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
           />
-          <FormControl>
-            <FormLabel>Identical Number</FormLabel>
-            <Input
-              placeholder="Enter identical number"
-              value={fixedData.identicalNumber}
-              onChange={(e) => setFixedData({ ...fixedData, identicalNumber: e.target.value })}
-            />
-          </FormControl>
           <FormControl>
             <FormLabel>Model Name</FormLabel>
             <Input

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, VStack, Input, Button, Text, Box, FormControl, FormLabel } from "@chakra-ui/react";
+import { Container, VStack, Input, Button, Text, Box, FormControl, FormLabel, Select } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 const DataInput = () => {
@@ -10,6 +10,8 @@ const DataInput = () => {
   });
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
+
+  const modelOptions = ["Model A", "Model B", "Model C"]; // Predefined model data
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -46,11 +48,17 @@ const DataInput = () => {
           <Text fontSize="2xl">Input Data</Text>
           <FormControl>
             <FormLabel>Model Name</FormLabel>
-            <Input
-              placeholder="Enter model name"
+            <Select
+              placeholder="Select model"
               value={fixedData.modelName}
               onChange={(e) => setFixedData({ ...fixedData, modelName: e.target.value })}
-            />
+            >
+              {modelOptions.map((model, index) => (
+                <option key={index} value={model}>
+                  {model}
+                </option>
+              ))}
+            </Select>
           </FormControl>
           <FormControl>
             <FormLabel>Phone Number</FormLabel>

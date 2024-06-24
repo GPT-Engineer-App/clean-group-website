@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
 import { Container, VStack, Input, Button, Text, Box, FormControl, FormLabel, Select } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const DataInput = () => {
   const [userData, setUserData] = useState(null);
@@ -9,9 +11,13 @@ const DataInput = () => {
     phoneNumber: "",
   });
   const [file, setFile] = useState(null);
+  const [contractStatus, setContractStatus] = useState("");
+  const [contractStartDate, setContractStartDate] = useState(null);
+  const [contractEndDate, setContractEndDate] = useState(null);
   const navigate = useNavigate();
 
   const modelOptions = ["Model A", "Model B", "Model C"]; // Predefined model data
+  const contractStatusOptions = ["Active", "Pending", "Terminated"];
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -36,6 +42,9 @@ const DataInput = () => {
     const updatedData = {
       ...userData,
       ...fixedData,
+      contractStatus,
+      contractStartDate,
+      contractEndDate,
     };
     setUserData(updatedData);
     localStorage.setItem("userData", JSON.stringify(updatedData));
@@ -71,6 +80,38 @@ const DataInput = () => {
           <FormControl>
             <FormLabel>Upload File</FormLabel>
             <Input type="file" onChange={handleFileUpload} />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Contract Status</FormLabel>
+            <Select
+              placeholder="Select contract status"
+              value={contractStatus}
+              onChange={(e) => setContractStatus(e.target.value)}
+            >
+              {contractStatusOptions.map((status, index) => (
+                <option key={index} value={status}>
+                  {status}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl>
+            <FormLabel>Contract Start Date</FormLabel>
+            <DatePicker
+              selected={contractStartDate}
+              onChange={(date) => setContractStartDate(date)}
+              dateFormat="yyyy/MM/dd"
+              placeholderText="Select start date"
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Contract End Date</FormLabel>
+            <DatePicker
+              selected={contractEndDate}
+              onChange={(date) => setContractEndDate(date)}
+              dateFormat="yyyy/MM/dd"
+              placeholderText="Select end date"
+            />
           </FormControl>
           <Button onClick={handleDataSubmit} colorScheme="blue">
             Submit Data

@@ -1,55 +1,49 @@
 import { useState, useEffect } from "react";
 import { Container, VStack, Input, Button, Text, Box, FormControl, FormLabel } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
-const Index = () => {
-  const [userId, setUserId] = useState("");
+const DataInput = () => {
   const [userData, setUserData] = useState(null);
   const [fixedData, setFixedData] = useState({
     modelName: "",
     phoneNumber: "",
   });
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
     if (storedUserData) {
       setUserData(JSON.parse(storedUserData));
+    } else {
+      navigate("/");
     }
-  }, []);
-
-  const handleLogin = () => {
-    const data = {
-      id: userId,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      age: 30,
-      status: "active",
-      identicalNumber: Date.now(), // Automatically assign a unique number
-      ...fixedData,
-    };
-    setUserData(data);
-    localStorage.setItem("userData", JSON.stringify(data));
-  };
+  }, [navigate]);
 
   const handleLogout = () => {
     setUserData(null);
     localStorage.removeItem("userData");
+    navigate("/");
   };
 
   const handleFileUpload = (e) => {
     setFile(e.target.files[0]);
   };
 
+  const handleDataSubmit = () => {
+    const updatedData = {
+      ...userData,
+      ...fixedData,
+    };
+    setUserData(updatedData);
+    localStorage.setItem("userData", JSON.stringify(updatedData));
+  };
+
   return (
     <Container centerContent maxW="container.md" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-      {!userData ? (
+      {userData ? (
         <VStack spacing={4}>
-          <Text fontSize="2xl">Login</Text>
-          <Input
-            placeholder="Enter your ID"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-          />
+          <Text fontSize="2xl">Input Data</Text>
           <FormControl>
             <FormLabel>Model Name</FormLabel>
             <Input
@@ -70,29 +64,18 @@ const Index = () => {
             <FormLabel>Upload File</FormLabel>
             <Input type="file" onChange={handleFileUpload} />
           </FormControl>
-          <Button onClick={handleLogin} colorScheme="blue">
-            Login
+          <Button onClick={handleDataSubmit} colorScheme="blue">
+            Submit Data
+          </Button>
+          <Button onClick={handleLogout} colorScheme="red">
+            Logout
           </Button>
         </VStack>
       ) : (
-        <Box p={4} borderWidth={1} borderRadius="md" boxShadow="md">
-          <Text fontSize="2xl" mb={4}>User Data</Text>
-          <Text><strong>ID:</strong> {userData.id}</Text>
-          <Text><strong>Name:</strong> {userData.name}</Text>
-          <Text><strong>Email:</strong> {userData.email}</Text>
-          <Text><strong>Age:</strong> {userData.age}</Text>
-          <Text><strong>Status:</strong> {userData.status}</Text>
-          <Text><strong>Identical Number:</strong> {userData.identicalNumber}</Text>
-          <Text><strong>Model Name:</strong> {userData.modelName}</Text>
-          <Text><strong>Phone Number:</strong> {userData.phoneNumber}</Text>
-          {file && <Text><strong>Uploaded File:</strong> {file.name}</Text>}
-          <Button onClick={handleLogout} colorScheme="red" mt={4}>
-            Logout
-          </Button>
-        </Box>
+        <Text>Loading...</Text>
       )}
     </Container>
   );
 };
 
-export default Index;
+export default DataInput;
